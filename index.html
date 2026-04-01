@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make it easy - 学生マッチングプラットフォーム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            max-width: 430px;
+            margin: 0 auto;
+            background-color: #f9fafb;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .nav-btn {
+            transition: all 0.2s;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-emerald-500 text-white p-4 sticky top-0 z-50 shadow-md">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-bold">Make it easy</h1>
+            <div class="flex gap-2">
+                <button onclick="showPage('home')" class="nav-btn bg-emerald-600 px-3 py-1 rounded text-sm">ホーム</button>
+                <button onclick="showPage('admin')" class="nav-btn bg-emerald-600 px-3 py-1 rounded text-sm">管理</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="p-6">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-emerald-600 mb-4">ようこそ！</h2>
+                <p class="text-gray-700 mb-4">Make it easyは、学生同士をつなぐマッチングプラットフォームです。</p>
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 mb-4">
+                    <p class="text-sm text-gray-700">✓ 学生証認証で安全</p>
+                    <p class="text-sm text-gray-700">✓ 興味・関心でマッチング</p>
+                    <p class="text-sm text-gray-700">✓ グループ活動をサポート</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="showPage('register')" class="bg-emerald-500 text-white p-4 rounded-lg shadow-md hover:bg-emerald-600 transition">
+                    <div class="text-lg font-bold">👤 新規登録</div>
+                    <div class="text-sm">アカウントを作成する</div>
+                </button>
+
+                <button onclick="showPage('groups')" class="bg-blue-500 text-white p-4 rounded-lg shadow-md hover:bg-blue-600 transition">
+                    <div class="text-lg font-bold">👥 グループ一覧</div>
+                    <div class="text-sm">活動中のグループを見る</div>
+                </button>
+
+                <button onclick="showPage('match')" class="bg-purple-500 text-white p-4 rounded-lg shadow-md hover:bg-purple-600 transition">
+                    <div class="text-lg font-bold">💚 マッチング申請</div>
+                    <div class="text-sm">新しい仲間を探す</div>
+                </button>
+            </div>
+
+            <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <p class="text-sm text-yellow-800">
+                    <strong>デモモード:</strong> このアプリはデモ版です。データはブラウザに保存され、サンプルデータが自動投入されています。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="register" class="page">
+        <div class="p-6">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-emerald-600 mb-6">新規ユーザー登録</h2>
+
+                <form id="registerForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">氏名 *</label>
+                        <input type="text" id="userName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">メールアドレス *</label>
+                        <input type="email" id="userEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">大学名 *</label>
+                        <input type="text" id="userUniversity" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">学年 *</label>
+                        <select id="userGrade" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="">選択してください</option>
+                            <option value="1">1年生</option>
+                            <option value="2">2年生</option>
+                            <option value="3">3年生</option>
+                            <option value="4">4年生</option>
+                            <option value="院1">修士1年</option>
+                            <option value="院2">修士2年</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">興味・関心 (カンマ区切り)</label>
+                        <input type="text" id="userInterests" placeholder="例: プログラミング, 起業, デザイン" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                        <p class="text-sm font-medium text-emerald-800 mb-2">📸 学生証認証 (写真または動画)</p>
+                        <input type="file" id="studentIdFile" accept="image/*,video/*" class="w-full text-sm">
+                        <p class="text-xs text-gray-600 mt-2">※ 本人確認のため、学生証の写真または動画をアップロードしてください</p>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="showPage('home')" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-md hover:bg-gray-400 transition">
+                            キャンセル
+                        </button>
+                        <button type="submit" class="flex-1 bg-emerald-500 text-white py-3 rounded-md hover:bg-emerald-600 transition font-medium">
+                            登録する
+                        </button>
+                    </div>
+                </form>
+
+                <div id="registerSuccess" class="hidden mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+                    <p class="text-green-800 font-medium">✓ 登録が完了しました！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Groups Page -->
+    <div id="groups" class="page">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">グループ一覧</h2>
+
+            <div class="mb-4 flex gap-2">
+                <input type="text" id="groupSearch" placeholder="グループ名で検索..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md">
+                <button onclick="filterGroups()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">検索</button>
+            </div>
+
+            <div id="groupsList" class="space-y-4">
+                <!-- Groups will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Page -->
+    <div id="match" class="page">
+        <div class="p-6">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-purple-600 mb-6">マッチング申請</h2>
+
+                <form id="matchForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">あなたの名前 *</label>
+                        <input type="text" id="matchName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">希望するマッチングタイプ *</label>
+                        <select id="matchType" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="">選択してください</option>
+                            <option value="study">勉強仲間</option>
+                            <option value="hobby">趣味仲間</option>
+                            <option value="project">プロジェクト仲間</option>
+                            <option value="startup">起業仲間</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">興味分野 (カンマ区切り) *</label>
+                        <input type="text" id="matchInterests" required placeholder="例: AI, Web開発, マーケティング" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">自己紹介</label>
+                        <textarea id="matchBio" rows="4" placeholder="あなたについて教えてください..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="showPage('home')" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-md hover:bg-gray-400 transition">
+                            キャンセル
+                        </button>
+                        <button type="submit" class="flex-1 bg-purple-500 text-white py-3 rounded-md hover:bg-purple-600 transition font-medium">
+                            申請する
+                        </button>
+                    </div>
+                </form>
+
+                <div id="matchSuccess" class="hidden mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+                    <p class="text-green-800 font-medium">✓ マッチング申請を受け付けました！</p>
+                    <p class="text-sm text-gray-600 mt-2">マッチング結果は後日メールでお知らせします。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Page -->
+    <div id="admin" class="page">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-red-600 mb-4">管理画面</h2>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+                <h3 class="text-lg font-bold text-gray-700 mb-3">📊 統計情報</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 p-3 rounded">
+                        <div class="text-2xl font-bold text-emerald-600" id="totalUsers">0</div>
+                        <div class="text-sm text-gray-600">登録ユーザー</div>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded">
+                        <div class="text-2xl font-bold text-blue-600" id="totalGroups">0</div>
+                        <div class="text-sm text-gray-600">グループ数</div>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded">
+                        <div class="text-2xl font-bold text-purple-600" id="totalMatches">0</div>
+                        <div class="text-sm text-gray-600">マッチング申請</div>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded">
+                        <div class="text-2xl font-bold text-orange-600" id="verifiedUsers">0</div>
+                        <div class="text-sm text-gray-600">認証済み</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+                <h3 class="text-lg font-bold text-gray-700 mb-3">👥 登録ユーザー一覧</h3>
+                <div id="usersList" class="space-y-2 max-h-64 overflow-y-auto">
+                    <!-- Users will be inserted here -->
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+                <h3 class="text-lg font-bold text-gray-700 mb-3">💚 マッチング申請一覧</h3>
+                <div id="matchesList" class="space-y-2 max-h-64 overflow-y-auto">
+                    <!-- Matches will be inserted here -->
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-bold text-gray-700 mb-3">⚙️ データ管理</h3>
+                <div class="space-y-3">
+                    <button onclick="resetData()" class="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition">
+                        🔄 サンプルデータをリセット
+                    </button>
+                    <button onclick="clearAllData()" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition">
+                        🗑️ 全データを削除
+                    </button>
+                    <button onclick="exportData()" class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
+                        💾 データをエクスポート
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize sample data on first load
+        if (!localStorage.getItem('dataInitialized')) {
+            initializeSampleData();
+        }
+
+        function initializeSampleData() {
+            // Sample users
+            const sampleUsers = [
+                {
+                    id: 1,
+                    name: '田中太郎',
+                    email: 'tanaka@example.com',
+                    university: '東京大学',
+                    grade: '3',
+                    interests: ['プログラミング', 'AI', '起業'],
+                    verified: true,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: '佐藤花子',
+                    email: 'sato@example.com',
+                    university: '慶應義塾大学',
+                    grade: '2',
+                    interests: ['デザイン', 'UX', 'マーケティング'],
+                    verified: true,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    name: '鈴木一郎',
+                    email: 'suzuki@example.com',
+                    university: '早稲田大学',
+                    grade: '4',
+                    interests: ['ビジネス', 'コンサルティング', '金融'],
+                    verified: false,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+
+            // Sample groups
+            const sampleGroups = [
+                {
+                    id: 1,
+                    name: 'AI研究会',
+                    category: 'テクノロジー',
+                    members: 15,
+                    description: '機械学習とAIについて学ぶグループです',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'スタートアップ部',
+                    category: 'ビジネス',
+                    members: 22,
+                    description: '起業を目指す学生の集まりです',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    name: 'デザイン同好会',
+                    category: 'クリエイティブ',
+                    members: 18,
+                    description: 'UIUXデザインを学び実践します',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 4,
+                    name: 'プログラミング勉強会',
+                    category: 'テクノロジー',
+                    members: 30,
+                    description: 'Web開発を中心に学習しています',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+
+            // Sample matches
+            const sampleMatches = [
+                {
+                    id: 1,
+                    name: '山田次郎',
+                    type: 'project',
+                    interests: ['Web開発', 'React', 'Node.js'],
+                    bio: 'フルスタック開発を学んでいます',
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: '高橋美咲',
+                    type: 'startup',
+                    interests: ['起業', 'マーケティング', 'SNS'],
+                    bio: 'SNS系のサービスを立ち上げたいです',
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+
+            localStorage.setItem('users', JSON.stringify(sampleUsers));
+            localStorage.setItem('groups', JSON.stringify(sampleGroups));
+            localStorage.setItem('matches', JSON.stringify(sampleMatches));
+            localStorage.setItem('dataInitialized', 'true');
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+
+            // Load data when showing relevant pages
+            if (pageId === 'groups') {
+                loadGroups();
+            } else if (pageId === 'admin') {
+                loadAdminData();
+            }
+        }
+
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const newUser = {
+                id: users.length + 1,
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                university: document.getElementById('userUniversity').value,
+                grade: document.getElementById('userGrade').value,
+                interests: document.getElementById('userInterests').value.split(',').map(i => i.trim()),
+                verified: false,
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerSuccess').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('registerSuccess').classList.add('hidden');
+                showPage('home');
+            }, 2000);
+        });
+
+        // Match form handler
+        document.getElementById('matchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+            const newMatch = {
+                id: matches.length + 1,
+                name: document.getElementById('matchName').value,
+                type: document.getElementById('matchType').value,
+                interests: document.getElementById('matchInterests').value.split(',').map(i => i.trim()),
+                bio: document.getElementById('matchBio').value,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+
+            matches.push(newMatch);
+            localStorage.setItem('matches', JSON.stringify(matches));
+
+            document.getElementById('matchForm').reset();
+            document.getElementById('matchSuccess').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('matchSuccess').classList.add('hidden');
+                showPage('home');
+            }, 2000);
+        });
+
+        // Load groups
+        function loadGroups() {
+            const groups = JSON.parse(localStorage.getItem('groups') || '[]');
+            const groupsList = document.getElementById('groupsList');
+
+            groupsList.innerHTML = groups.map(group => `
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-lg text-gray-800">${group.name}</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${group.category}</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">${group.description}</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <span>👥 ${group.members}人</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter groups
+        function filterGroups() {
+            const searchTerm = document.getElementById('groupSearch').value.toLowerCase();
+            const groups = JSON.parse(localStorage.getItem('groups') || '[]');
+            const filtered = groups.filter(g => 
+                g.name.toLowerCase().includes(searchTerm) || 
+                g.description.toLowerCase().includes(searchTerm)
+            );
+
+            const groupsList = document.getElementById('groupsList');
+            groupsList.innerHTML = filtered.map(group => `
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-lg text-gray-800">${group.name}</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${group.category}</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">${group.description}</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <span>👥 ${group.members}人</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const groups = JSON.parse(localStorage.getItem('groups') || '[]');
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+
+            // Update statistics
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('totalGroups').textContent = groups.length;
+            document.getElementById('totalMatches').textContent = matches.length;
+            document.getElementById('verifiedUsers').textContent = users.filter(u => u.verified).length;
+
+            // Display users
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = users.map(user => `
+                <div class="bg-gray-50 p-3 rounded">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-medium">${user.name}</div>
+                            <div class="text-sm text-gray-600">${user.university} - ${user.grade}年生</div>
+                            <div class="text-xs text-gray-500">${user.interests.join(', ')}</div>
+                        </div>
+                        <span class="text-xs px-2 py-1 rounded ${user.verified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${user.verified ? '✓ 認証済' : '未認証'}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Display matches
+            const matchesList = document.getElementById('matchesList');
+            matchesList.innerHTML = matches.map(match => `
+                <div class="bg-gray-50 p-3 rounded">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-medium">${match.name}</div>
+                            <div class="text-sm text-gray-600">${getMatchTypeLabel(match.type)}</div>
+                            <div class="text-xs text-gray-500">${match.interests.join(', ')}</div>
+                        </div>
+                        <span class="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-800">
+                            保留中
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getMatchTypeLabel(type) {
+            const labels = {
+                'study': '勉強仲間',
+                'hobby': '趣味仲間',
+                'project': 'プロジェクト仲間',
+                'startup': '起業仲間'
+            };
+            return labels[type] || type;
+        }
+
+        // Data management
+        function resetData() {
+            if (confirm('サンプルデータをリセットしますか？既存のデータは削除されます。')) {
+                localStorage.removeItem('dataInitialized');
+                initializeSampleData();
+                loadAdminData();
+                alert('サンプルデータをリセットしました！');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('本当に全てのデータを削除しますか？この操作は取り消せません。')) {
+                localStorage.clear();
+                alert('全てのデータを削除しました。ページをリロードしてください。');
+                location.reload();
+            }
+        }
+
+        function exportData() {
+            const data = {
+                users: JSON.parse(localStorage.getItem('users') || '[]'),
+                groups: JSON.parse(localStorage.getItem('groups') || '[]'),
+                matches: JSON.parse(localStorage.getItem('matches') || '[]'),
+                exportedAt: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'make-it-easy-data-' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
